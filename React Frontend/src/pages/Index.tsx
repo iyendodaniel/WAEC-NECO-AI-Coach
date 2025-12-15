@@ -38,17 +38,23 @@ const Index = () => {
     try {
       const response = await fetch("http://localhost:8001/ask", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question: content,
-          language, // send selected language
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: content, language }),
       });
 
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server error: ${response.status} - ${errorText}`);
+      }
+
+      const text = await response.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Invalid JSON from server");
+      }
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -57,11 +63,11 @@ const Index = () => {
       };
 
       setMessages((prev) => [...prev, aiMessage]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error contacting AI:", error);
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: "Sorry, something went wrong. Please try again.",
+        content: `Error: ${error.message}`, // shows actual backend error
         role: "assistant",
       };
       setMessages((prev) => [...prev, aiMessage]);
