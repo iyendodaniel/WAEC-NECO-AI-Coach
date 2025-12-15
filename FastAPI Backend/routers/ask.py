@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request
-from generate import generate_answer
 from pydantic import BaseModel
+from generate import generate_answer  # new simplified version
 
 ask_router = APIRouter()
 
@@ -8,10 +8,11 @@ class QuestionRequest(BaseModel):
     question: str
     language: str
 
-
 @ask_router.post("/ask")
 def ask_question(request: Request, body: QuestionRequest):
-    model = request.app.state.model
-    tokenizer = request.app.state.tokenizer
-    answer = generate_answer(model, tokenizer, body.question, body.language)
+    answer = generate_answer(
+        request.app.state.model_pipeline,
+        body.question,
+        body.language
+    )
     return {"answer": answer}
