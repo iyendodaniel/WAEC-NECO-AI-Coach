@@ -11,7 +11,7 @@ export default function OnboardingScreens() {
       title: "Learn With Your Language",
       icon: <MessageSquare className="w-20 h-20" strokeWidth={1.5} />,
       description: "Get explanations in the language you understand best",
-      languages: ["English", "Yoruba", "Igbo", "Hausa", "Pidgin"]
+      languages: ["English", "Yoruba", "Igbo", "Hausa",]
     },
     {
       title: "WAEC & NECO Made Easy",
