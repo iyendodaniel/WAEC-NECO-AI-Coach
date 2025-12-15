@@ -12,7 +12,6 @@ const languages = [
   { value: "yoruba", label: "Yorùbá", flag: "🇳🇬" },
   { value: "igbo", label: "Igbo", flag: "🇳🇬" },
   { value: "hausa", label: "Hausa", flag: "🇳🇬" },
-  { value: "pidgin", label: "Pidgin", flag: "🇳🇬" },
 ];
 
 interface LanguageSelectorProps {
