@@ -1,12 +1,21 @@
 from fastapi import FastAPI
 from model_loader import ensure_model_ready
 from routers.ask import ask_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 @app.on_event("startup")
 def startup():
     app.state.model_pipeline = ensure_model_ready()  # now it's just a request function
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # React dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/generate/")
 def generate(prompt: str):
