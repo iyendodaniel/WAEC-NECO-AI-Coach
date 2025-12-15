@@ -1,0 +1,13 @@
+Technical Architecture
+
+Frontend: React + TypeScript chat interface with components: ChatMessage, ChatInput, TypingIndicator.
+
+Backend: FastAPI API with /ask endpoint that receives user question + language, passes to N-ATLaS model, returns sanitized answer.
+
+AI Engine: llama.cpp loads N-ATLaS GGUF model; generates answers locally.
+
+Flow:
+
+User types question → Frontend POST request → FastAPI receives → llama.cpp generates answer → FastAPI returns JSON → Frontend displays clean answer.
+
+User → React Frontend → POST /ask → FastAPI → llama.cpp (N-ATLaS) → FastAPI → JSON Response → React Frontend → User sees answer
